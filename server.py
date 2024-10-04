@@ -25,16 +25,16 @@ def handle_request(client_socket):
             elif path == "/op2":
                 op2 = float(body)
 
-            response = "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n"
+            response = "HTTP/1.1 200 OK\r\nContent-Length: 0\r\n\r\n\n"
         except Exception as e:
-            response = f"HTTP/1.1 400 Bad Request\r\nContent-Length: 0\r\n\r\n"
+            response = f"HTTP/1.1 400 Bad Request\r\nContent-Length: 0\r\n\r\n\n"
 
     elif method == "GET" and (path == "/op1" or path == "/op2"):
         if path == "/op1":
             value = str(op1)
         elif path == "/op2":
             value = str(op2)
-
+        value += "\n"
         response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(value)}\r\n\r\n{value}"
     
     elif method == "POST" and path == "/calculate":
@@ -61,10 +61,10 @@ def handle_request(client_socket):
             response = "HTTP/1.1 500 Internal Server Error\r\nContent-Length: 0\r\n\r\n"
     
     elif path in ["/op1", "/op2", "/calculate"]:
-        response = "HTTP/1.1 405 Method Not Allowed\r\nContent-Length: 0\r\n\r\n"
+        response = "HTTP/1.1 405 Method Not Allowed\r\nContent-Length: 0\r\n\r\n\n"
     
     else:
-        response = "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n"
+        response = "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n\n"
 
     client_socket.sendall(response.encode('utf-8'))
 
