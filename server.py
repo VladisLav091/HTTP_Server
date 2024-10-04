@@ -55,7 +55,7 @@ def handle_request(client_socket):
             else:
                 result = "Unknown operation"
 
-            result_str = str(result)
+            result_str = str(result) + "\n"
             response = f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(result_str)}\r\n\r\n{result_str}"
         except Exception as e:
             response = "HTTP/1.1 500 Internal Server Error\r\nContent-Length: 0\r\n\r\n"
